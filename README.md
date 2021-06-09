@@ -1,1 +1,1 @@
-# go-test
+# go-gin-gorm
