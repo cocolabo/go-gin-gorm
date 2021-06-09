@@ -1,0 +1,1 @@
+module "github.com/cocolabo/go-gin-gorm"
