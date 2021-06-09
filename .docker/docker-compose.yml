@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:5.7.33
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: go_app
+      MYSQL_USER: go
+      MYSQL_PASSWORD: pass
+      TZ: 'Asia/Tokyo'
+    volumes:
+      - ./db/data:/var/lib/mysql
+      - ./db/conf.d:/etc/mysql/conf.d
+    ports:
+      - "${DB_PORT}:3306"
+    networks:
+      - go_gin_gorm_backend
+networks:
+  go_gin_gorm_backend:
+    external: false
