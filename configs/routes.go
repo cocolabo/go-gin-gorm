@@ -36,5 +36,17 @@ func SetupRoutes(contactRepository *repositories.ContactRepository) *gin.Engine 
 		context.JSON(code, response)
 	})
 
+	route.GET("/", func(context *gin.Context) {
+		code := http.StatusOK
+
+		response := services.FindAllContacts(*contactRepository)
+
+		if !response.Success {
+			code = http.StatusBadRequest
+		}
+
+		context.JSON(code, response)
+	})
+
 	return route
 }
