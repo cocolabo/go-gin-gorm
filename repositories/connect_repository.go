@@ -22,3 +22,27 @@ func (r *ContactRepository) Save(contact *models.Contact) RepositoryResult {
 
 	return RepositoryResult{Result: contact}
 }
+
+func (r *ContactRepository) FindAll() RepositoryResult {
+	var contacts models.Contacts
+
+	err := r.db.Find(&contacts).Error
+
+	if err != nil {
+		return RepositoryResult{Error: err}
+	}
+
+	return RepositoryResult{Result: &contacts}
+}
+
+func (r *ContactRepository) FindOneById(id string) RepositoryResult {
+	var contact models.Contact
+
+	err := r.db.First(&contact, "id = ?", id).Error
+
+	if err != nil {
+		return RepositoryResult{Error: err}
+	}
+
+	return RepositoryResult{Result: &contact}
+}

@@ -27,3 +27,27 @@ func CreateContact(contact *models.Contact, repository repositories.ContactRepos
 
 	return dtos.Response{Success: true, Data: data}
 }
+
+func FindAllContacts(repository repositories.ContactRepository) dtos.Response {
+	operationResult := repository.FindAll()
+
+	if operationResult.Error != nil {
+		return dtos.Response{Success: false, Message: operationResult.Error.Error()}
+	}
+
+	data := operationResult.Result.(*models.Contacts)
+
+	return dtos.Response{Success: true, Data: data}
+}
+
+func FindOneContactById(id string, repository repositories.ContactRepository) dtos.Response {
+	operationResult := repository.FindOneById(id)
+
+	if operationResult.Error != nil {
+		return dtos.Response{Success: false, Message: operationResult.Error.Error()}
+	}
+
+	data := operationResult.Result.(*models.Contact)
+
+	return dtos.Response{Success: true, Data: data}
+}

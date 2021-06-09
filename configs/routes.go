@@ -12,29 +12,56 @@ import (
 func SetupRoutes(contactRepository *repositories.ContactRepository) *gin.Engine {
 	route := gin.Default()
 
-	route.POST("/create", func(context *gin.Context) {
-		var contact models.Contact
+	routeGroup := route.Group("/contacts")
+	{
+		routeGroup.POST("", func(context *gin.Context) {
+			var contact models.Contact
 
-		err := context.ShouldBindJSON(&contact)
+			err := context.ShouldBindJSON(&contact)
 
-		if err != nil {
-			response := helpers.GenerateValidationResponse(err)
+			if err != nil {
+				response := helpers.GenerateValidationResponse(err)
 
-			context.JSON(http.StatusBadRequest, response)
+				context.JSON(http.StatusBadRequest, response)
 
-			return
-		}
+				return
+			}
 
-		code := http.StatusOK
+			code := http.StatusOK
 
-		response := services.CreateContact(&contact, *contactRepository)
+			response := services.CreateContact(&contact, *contactRepository)
 
-		if !response.Success {
-			code = http.StatusBadRequest
-		}
+			if !response.Success {
+				code = http.StatusBadRequest
+			}
 
-		context.JSON(code, response)
-	})
+			context.JSON(code, response)
+		})
+
+		routeGroup.GET("", func(context *gin.Context) {
+			code := http.StatusOK
+
+			response := services.FindAllContacts(*contactRepository)
+
+			if !response.Success {
+				code = http.StatusBadRequest
+			}
+
+			context.JSON(code, response)
+		})
+
+		routeGroup.GET("/:id", func(context *gin.Context) {
+			code := http.StatusOK
+
+			response := services.FindOneContactById(context.Param("id"), *contactRepository)
+
+			if !response.Success {
+				code = http.StatusBadRequest
+			}
+
+			context.JSON(code, response)
+		})
+	}
 
 	return route
 }
