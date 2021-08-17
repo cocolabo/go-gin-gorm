@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  api:
+    container_name: api
+    build:
+      context: .
+      dockerfile: .docker/go/Dockerfile
+    ports:
+      - "${API_PORT}:8000"
+    links:
+      - db
+    tty:
+      true
+    volumes:
+      - ./api:/app
+  db:
+    image: mysql:5.7.33
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: go_app
+      MYSQL_USER: go
+      MYSQL_PASSWORD: password
+      TZ: 'Asia/Tokyo'
+    volumes:
+      - .docker/db/data:/var/lib/mysql
+      - .docker/db/conf.d:/etc/mysql/conf.d
+    ports:
+      - "${DB_PORT}:3306"

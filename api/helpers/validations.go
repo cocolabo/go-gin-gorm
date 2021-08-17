@@ -1,22 +1,22 @@
 package helpers
 
 import (
-	"github.com/cocolabo/go-gin-gorm/dtos"
-	"github.com/cocolabo/go-gin-gorm/langs"
+	dtos2 "github.com/cocolabo/go-gin-gorm/api/dtos"
+	langs2 "github.com/cocolabo/go-gin-gorm/api/langs"
 	"github.com/go-playground/validator/v10"
 )
 
-func GenerateValidationResponse(err error) (response dtos.ValidationResponse) {
+func GenerateValidationResponse(err error) (response dtos2.ValidationResponse) {
 	response.Success = false
 
-	var validations []dtos.Validation
+	var validations []dtos2.Validation
 
 	validationErrors := err.(validator.ValidationErrors)
 
 	for _, value := range validationErrors {
 		field, rule := value.Field(), value.Tag()
 
-		validation := dtos.Validation{Field: field, Message: langs.GenerateValidationMessage(field, rule)}
+		validation := dtos2.Validation{Field: field, Message: langs2.GenerateValidationMessage(field, rule)}
 
 		validations = append(validations, validation)
 	}

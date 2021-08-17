@@ -1,7 +1,7 @@
 package repositories
 
 import (
-	"github.com/cocolabo/go-gin-gorm/models"
+	models2 "github.com/cocolabo/go-gin-gorm/api/models"
 	"gorm.io/gorm"
 )
 
@@ -13,7 +13,7 @@ func NewContactRepository(db *gorm.DB) *ContactRepository {
 	return &ContactRepository{db: db}
 }
 
-func (r *ContactRepository) Save(contact *models.Contact) RepositoryResult {
+func (r *ContactRepository) Save(contact *models2.Contact) RepositoryResult {
 	err := r.db.Save(contact).Error
 
 	if err != nil {
@@ -24,7 +24,7 @@ func (r *ContactRepository) Save(contact *models.Contact) RepositoryResult {
 }
 
 func (r *ContactRepository) FindAll() RepositoryResult {
-	var contacts models.Contacts
+	var contacts models2.Contacts
 
 	err := r.db.Find(&contacts).Error
 
@@ -36,7 +36,7 @@ func (r *ContactRepository) FindAll() RepositoryResult {
 }
 
 func (r *ContactRepository) FindOneById(id string) RepositoryResult {
-	var contact models.Contact
+	var contact models2.Contact
 
 	err := r.db.First(&contact, "id = ?", id).Error
 
