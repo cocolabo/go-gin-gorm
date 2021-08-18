@@ -1,4 +1,4 @@
-module github.com/cocolabo/go-gin-gorm
+module github.com/cocolabo/go-gin-gorm/api
 
 go 1.16
 
