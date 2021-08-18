@@ -21,7 +21,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: go_app
       MYSQL_USER: go
-      MYSQL_PASSWORD: password
+      MYSQL_PASSWORD: pass
       TZ: 'Asia/Tokyo'
     volumes:
       - .docker/db/data:/var/lib/mysql
